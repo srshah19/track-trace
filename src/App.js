@@ -13,7 +13,7 @@ const BasicExample = () => (
   <Router>
     <div className="brand-banner">
       <Route exact path="/" component={Home}/>
-      <Route path="/results/:landingId" component={Results}/>
+      <Route path="/bookings/:landingId" component={Results}/>
     </div>
   </Router>
 );

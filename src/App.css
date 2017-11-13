@@ -18,13 +18,23 @@ html, body, #root {
     color: white;
 }
 
+.navigation-bar{
+    background: white;
+    width: 100%;
+    padding: 10px;
+}
+
 .font-large {
     font-size: 18px;
 }
 
-.testing{
+.absolute-pos{
     position: absolute;
     top: 25%;
+}
+
+.saved-searches{
+    list-style-type: none;
 }
 
 .shipping-container {
