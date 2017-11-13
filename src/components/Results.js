@@ -86,7 +86,7 @@ class Results extends Component {
           pauseOnHover
         />
         {/*<a href="/"><Glyphicon glyph="arrow-left"/>Home</a>*/}
-        <h2 className="">Showing results for: {this.state.landingId}
+        <h3 className="">Showing results for: {this.state.landingId}
           <CopyToClipboard text={this.state.value}
                            onCopy={() => this.setState({copied: true})}>
             <OverlayTrigger placement="top" overlay={tooltip}>
@@ -94,7 +94,7 @@ class Results extends Component {
                     onClick={() => this.notify("URL has been copied to clipboard.")}/>
             </OverlayTrigger>
           </CopyToClipboard>
-        </h2>
+        </h3>
         {this.state.noResults ? <h3>No results found</h3> :
           (!this.state.data ? <p>Loading</p> : <Container data={this.state.data}/> )}
       </div>
