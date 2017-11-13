@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import data from '../data/data';
 import containerImage from '../container.png';
 
+
+// Simple bootstrap tooltip
 const tooltip = (
   <Tooltip id="tooltip">
     Click this icon to copy the share URL.
@@ -18,15 +20,19 @@ const tooltip = (
 );
 
 
+/**
+ * Results class which handles routing, saving search and overall data construction
+ * for Container class to use.
+ */
 class Results extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      landingId: props.match.params.landingId,
-      noResults: false,
+      landingId: props.match.params.landingId, //We pass the booking reference as a param ID
+      noResults: false, //State to keep track if no results are found
       data: null,
       copied: false,
-      value: window.location.href || props.location.pathname
+      value: window.location.href || props.location.pathname // Used to share the current URL
     };
   }
 
@@ -50,6 +56,7 @@ class Results extends Component {
     // Currently using localStorage for storing search history.
     // Ideally search history needs to be stored in DB.
     if (localStorage.getItem('searches')) {
+      // localStorage only stores strings. parsing to arr and stringify for storing.
       arr = JSON.parse(localStorage.getItem('searches'));
       if (arr.indexOf(this.state.landingId) === -1) {
         arr.push(this.state.landingId);
@@ -60,17 +67,23 @@ class Results extends Component {
       localStorage.setItem('searches', JSON.stringify(arr));
       toast('This booking number has been saved to search');
     } else {
+      // If the searches is not stored, create a new Array and store in local.
       localStorage.setItem('searches', JSON.stringify([this.state.landingId]));
       toast('This booking number has been saved to search');
     }
   }
 
+  /**
+   * Simple message notification library
+   * param: {message}: The message to be displayed.
+   */
   notify = (message) => toast(message);
 
   render() {
     return (
       <div>
         <div className="navigation-bar">
+          {/* Bootstrap menu bar */}
           <Nav bsStyle="pills" activeKey={2}>
             <NavItem eventKey={1} href="/">Home</NavItem>
             <NavItem eventKey={2} title="Results">Results</NavItem>
@@ -85,7 +98,6 @@ class Results extends Component {
           closeOnClick
           pauseOnHover
         />
-        {/*<a href="/"><Glyphicon glyph="arrow-left"/>Home</a>*/}
         <h3 className="">Showing results for: {this.state.landingId}
           <CopyToClipboard text={this.state.value}
                            onCopy={() => this.setState({copied: true})}>
@@ -102,36 +114,21 @@ class Results extends Component {
   }
 }
 
+/**
+ * Container class handles showing the booking reference along with the containers
+ * params: {data}: required to construct the UI
+ * #TODO: If data is null, handle it.
+ */
 class Container extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showTrace: false,
-      showModal: true,
-      open: false
-    }
-  }
-
-  fetchContainerInfo(event) {
-    console.log(event.target.getAttribute('data-number'));
-    return (
-      <Modal show={this.state.showModal} onHide={() => this.setState({showModal: false})}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Text in a modal</h4>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => this.setState({showModal: false})}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    )
+    this.state = {}
   }
 
   render() {
     return (
       <Grid>
+        {/* We map the entire data to create the booking details, containers and updates */}
         {this.props.data.map((item, i) =>
           <Row className="show-grid" key={i}>
             <Jumbotron>
@@ -182,6 +179,7 @@ class ContainerUpdate extends Component {
   }
 
   componentDidMount(){
+    // We send the update object, filter out the objects that don't match the current container number.
     const updates = this.props.updates.filter((item, i) => item.container_number === this.props.container.number);
     this.setState({
       updates: updates
@@ -202,6 +200,7 @@ class ContainerUpdate extends Component {
                   onClick={() => this.setState({open: !this.state.open})}>Trace</Button>&nbsp;
           <Collapse in={this.state.open}>
             <div>
+              {/* Container Updates */}
               {this.state.updates === null ? '' : (this.state.updates.map((update, i) =>
                   <Well>
                     <p>Container Number: {update.container_number}</p>

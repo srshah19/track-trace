@@ -7,6 +7,7 @@ import {
 import {ToastContainer, toast} from "react-toastify";
 
 
+// Simple Bootstrap tooltip
 const tooltip = (
   <Tooltip id="tooltip">
     Click this icon to remove this search from saved history
@@ -14,6 +15,11 @@ const tooltip = (
 );
 
 
+/**
+ * Home class renders the main page and handles the removing of saved searches and navigation to the results
+ * page when search is submitted.
+ * #TODO: Add a simple validation in the input onchange event which prevents unwanted API's from being made.
+ */
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +29,9 @@ class Home extends Component {
     };
   }
 
+  /*
+  Single remove of a booking reference
+   */
   removeFromSaved(val) {
     let arr;
     if (localStorage.getItem('searches')) {
@@ -37,6 +46,9 @@ class Home extends Component {
     }
   }
 
+  /*
+  Remove all the saved searches and reset the state of the savedSearches Array
+   */
   removeAll() {
     localStorage.removeItem('searches');
     this.setState({
@@ -102,6 +114,12 @@ class Home extends Component {
   }
 }
 
+/**
+ *
+ * @param disabled: Enable button only if something is typed in the input
+ * @param param: routing URL param (:landingId which is the booking reference number)
+ * @constructor
+ */
 const Button = ({disabled, param}) => (
   <Route render={({history}) => (
     <button
