@@ -22,6 +22,11 @@ html, body, #root {
     font-size: 18px;
 }
 
+.testing{
+    position: absolute;
+    top: 25%;
+}
+
 .shipping-container {
     width: 250px;
     display: inline-block;
@@ -31,6 +36,14 @@ html, body, #root {
     -webkit-box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.75);
     box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.75);
+}
+
+.container-img img{
+    width: 120px;
+}
+
+.m-l-2{
+    margin-left: 1em;
 }
 
 @keyframes App-logo-spin {
