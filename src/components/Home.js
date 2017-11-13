@@ -93,7 +93,7 @@ class Home extends Component {
               />
               <FormControl.Feedback/>
               <HelpBlock>You will be redirected to the results page.</HelpBlock>
-              <Button param={this.state.searchParam}/>
+              <Button disabled={this.state.searchParam.length === 0} param={this.state.searchParam}/>
             </FormGroup>
           </Col>
         </Row>
@@ -102,10 +102,11 @@ class Home extends Component {
   }
 }
 
-const Button = ({param}) => (
+const Button = ({disabled, param}) => (
   <Route render={({history}) => (
     <button
       type='button' className="btn-primary"
+      disabled={disabled}
       onClick={() => {
         history.push('/bookings/' + param)
       }}>

@@ -31,6 +31,8 @@ class Results extends Component {
   }
 
   componentDidMount() {
+    // Once component is mounted, search the mock data to get the object matching the booking reference number
+    // This will later turn into a fetch request to pull data from the pilship.com API
     const checkResults = data.filter(number => number['booking_number'] === this.props.match.params.landingId);
     if (checkResults.length === 0) {
       this.setState({
@@ -43,14 +45,16 @@ class Results extends Component {
     }
   }
 
-  saveSearch(){
+  saveSearch() {
     let arr;
-    if(localStorage.getItem('searches')){
+    // Currently using localStorage for storing search history.
+    // Ideally search history needs to be stored in DB.
+    if (localStorage.getItem('searches')) {
       arr = JSON.parse(localStorage.getItem('searches'));
-      if(arr.indexOf(this.state.landingId) === -1){
+      if (arr.indexOf(this.state.landingId) === -1) {
         arr.push(this.state.landingId);
       } else {
-        return toast.error('This search is already saved.' +
+        return toast.error('This search is already saved. ' +
           'If you want to remove, please go back to home and remove.');
       }
       localStorage.setItem('searches', JSON.stringify(arr));
@@ -67,11 +71,11 @@ class Results extends Component {
     return (
       <div>
         <div className="navigation-bar">
-        <Nav bsStyle="pills" activeKey={2}>
-          <NavItem eventKey={1} href="/">Home</NavItem>
-          <NavItem eventKey={2} title="Results">Results</NavItem>
-          <NavItem eventKey={3} title="Save Search" onClick={this.saveSearch.bind(this)}>Save Search</NavItem>
-        </Nav>
+          <Nav bsStyle="pills" activeKey={2}>
+            <NavItem eventKey={1} href="/">Home</NavItem>
+            <NavItem eventKey={2} title="Results">Results</NavItem>
+            <NavItem eventKey={3} title="Save Search" onClick={this.saveSearch.bind(this)}>Save Search</NavItem>
+          </Nav>
         </div>
         <ToastContainer
           position="top-right"
@@ -86,7 +90,8 @@ class Results extends Component {
           <CopyToClipboard text={this.state.value}
                            onCopy={() => this.setState({copied: true})}>
             <OverlayTrigger placement="top" overlay={tooltip}>
-              <span className="m-l-2 glyphicon glyphicon-share-alt" onClick={() => this.notify("URL has been copied to clipboard.")}/>
+              <span className="m-l-2 glyphicon glyphicon-share-alt"
+                    onClick={() => this.notify("URL has been copied to clipboard.")}/>
             </OverlayTrigger>
           </CopyToClipboard>
         </h2>
@@ -100,6 +105,16 @@ class Results extends Component {
 class Container extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showTrace: false
+    }
+  }
+
+  fetchContainerInfo(event) {
+    console.log(event.target.getAttribute('data-number'));
+    return (
+      <ContainerUpdate/>
+    )
   }
 
   render() {
@@ -143,9 +158,8 @@ class Container extends Component {
                       <p>Current Location: {container.location}</p>
                       <p>Last Status at: {new Date(container.last_status_at).toLocaleString()}</p>
                       <p>Last Status: {container.last_status}</p>
-                      <p>
-                        <Button bsStyle="primary">Show Updates</Button>&nbsp;
-                      </p>
+                      <Button bsStyle="primary" data-number={container.number}
+                              onClick={(val) => this.fetchContainerInfo(val)}>Trace</Button>&nbsp;
                     </Thumbnail>
                   </Col>
                 )}
@@ -153,6 +167,21 @@ class Container extends Component {
             </Grid>
           </Row>)}
       </Grid>
+    )
+  }
+}
+
+class ContainerUpdate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      object: props.data
+    }
+  }
+
+  render() {
+    return (
+      <p>Hello</p>
     )
   }
 }
