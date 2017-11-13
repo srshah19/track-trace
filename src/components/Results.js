@@ -190,12 +190,12 @@ class ContainerUpdate extends Component {
     return (
       <Col xs={6} md={4}>
         <Thumbnail src={containerImage} alt="242x200" className="container-img">
-          <h5>Container Number: <strong>{this.props.container.number}</strong></h5>
-          <p>Size: {this.props.container.size}</p>
-          <p>Type: {this.props.container.type}</p>
-          <p>Current Location: {this.props.container.location}</p>
-          <p>Last Status at: {new Date(this.props.container.last_status_at).toLocaleString()}</p>
-          <p>Last Status: {this.props.container.last_status}</p>
+          <h5><strong>Container Number:</strong> {this.props.container.number}</h5>
+          <p><strong>Size:</strong> {this.props.container.size}</p>
+          <p><strong>Type:</strong> {this.props.container.type}</p>
+          <p><strong>Current Location:</strong> {this.props.container.location}</p>
+          <p><strong>Last Status at:</strong> {new Date(this.props.container.last_status_at).toLocaleString()}</p>
+          <p><strong>Last Status:</strong> {this.props.container.last_status}</p>
           <Button bsStyle="primary" data-number={this.props.container.number}
                   onClick={() => this.setState({open: !this.state.open})}>Trace</Button>&nbsp;
           <Collapse in={this.state.open}>
@@ -203,10 +203,10 @@ class ContainerUpdate extends Component {
               {/* Container Updates */}
               {this.state.updates === null ? '' : (this.state.updates.map((update, i) =>
                   <Well>
-                    <p>Container Number: {update.container_number}</p>
-                    <p>Vessel: {update.vessel}</p>
-                    <p>Voyage: {update.voyage}</p>
-                    <p>Vessel Eta: {new Date(update.vessel_eta).toLocaleString()}</p>
+                    <p><strong>Container Number:</strong> {update.container_number}</p>
+                    <p><strong>Vessel:</strong> {update.vessel}</p>
+                    <p><strong>Voyage:</strong> {update.voyage}</p>
+                    <p><strong>Vessel Eta:</strong> {new Date(update.vessel_eta).toLocaleString()}</p>
                   </Well>
                 ))}
             </div>
