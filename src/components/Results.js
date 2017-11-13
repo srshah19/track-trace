@@ -87,6 +87,7 @@ class Results extends Component {
           <Nav bsStyle="pills" activeKey={2}>
             <NavItem eventKey={1} href="/">Home</NavItem>
             <NavItem eventKey={2} title="Results">Results</NavItem>
+            {/* #TODO: Maybe add an option here itself to remove if search is saved? */}
             <NavItem eventKey={3} title="Save Search" onClick={this.saveSearch.bind(this)}>Save Search</NavItem>
           </Nav>
         </div>
@@ -144,6 +145,8 @@ class Container extends Component {
                     <strong>Destination:</strong> {item.destination}</p>
                 </Col>
                 <Col sm={6}>
+                  {/* Vessel/ETA information is based on the container. I am finding the farthest eta date
+                   and using that to populate these fields */}
                   <p className="font-large">
                     <strong>Vessel ETA:</strong> {new Date(Math.max.apply(null, item.updates.map(function (e) {
                     return new Date(e.vessel_eta);
